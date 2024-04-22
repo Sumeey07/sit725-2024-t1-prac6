@@ -1,0 +1,27 @@
+{
+  "name": "sit725-2024-t1-prac6",
+  "version": "1.0.0",
+  "description": "sit 725 week 6 prac",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha --reporter spec test/apiTests.test.js"
+  },
+  "keywords": [
+    "Nodejs",
+    "Express",
+    "Materialize",
+    "HTML",
+    "JS",
+    "CSS"
+  ],
+  "author": "Sumeet Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^5.1.0",
+    "express": "^4.19.1",
+    "mocha": "^10.4.0",
+    "mongodb": "^6.5.0",
+    "request": "^2.88.2"
+  }
+}
