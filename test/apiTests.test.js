@@ -1,47 +1,20 @@
-// Dynamically import chai using import()
-const chaiPromise = import("chai");
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../server'); // Assuming server file is named server.js
+const expect = chai.expect;
 
-// Use chai via promise after it is imported
-chaiPromise.then(chai => {
-    var request = require("supertest");
-    var app = require("../model");
+chai.use(chaiHttp);
 
-    // Use expect from chai
-    var expect = chai.expect;
-
-    describe("API Tests", function() {
-        // Test case for checking the functionality of POST /api/projects/insert
-        it("POST /api/projects/insert should insert project data and return status 200", function (done) {
-            const projectData = {
-                first_name: "Sumeet",
-                last_name: "Kumar",
-                password: "test12345",
-                email: "test@example.com"
-            };
-
-            request(app)
-                .post("/api/projects/insert")
-                .send(projectData)
-                .expect(200)
-                .then((res) => {
-                    expect(res.body.statusCode).to.equal(200);
-                    expect(res.body.data).to.be.an('array');
-                    done();
-                })
-                .catch(err => done(err));
-        });
-
-        // Test case for checking the functionality of GET /api/projects
-        it("GET /api/projects should return status 200 and an array of projects", function (done) {
-            request(app)
-                .get("/api/projects")
-                .expect(200)
-                .then((res) => {
-                    expect(res.body.statusCode).to.equal(200);
-                    expect(res.body.data).to.be.an('array');
-                    done();
-                })
-                .catch(err => done(err));
+  describe('GET /api/projects', () => {
+    it('should get projects from MongoDB', (done) => {
+      chai.request(server)
+        .get('/api/projects')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('statusCode').equal(200);
+          expect(res.body).to.have.property('message').equal('Success');
+          expect(res.body.data).to.be.an('array').that.is.not.empty;
+          done();
         });
     });
-});
+  });

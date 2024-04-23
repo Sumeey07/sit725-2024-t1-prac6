@@ -5,11 +5,11 @@ var formController = require("./public/js/controllers/formController");
 var cardController = require("./public/js/controllers/cardController");
 var path = require("path");
 
-var app = express()
+var server = express()
 
-app.use(express.static(__dirname + '/public'))
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+server.use(express.static(__dirname + '/public'))
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
 
 var uri = "mongodb://localhost:27017";
 var client = new MongoClient(uri);
@@ -18,7 +18,7 @@ client.connect()
   .then(() => {
     console.log("Connected to MongoDB");
 
-    const db = client.db("AppliedSoftwareEngineering");
+    const db = client.db("serverliedSoftwareEngineering");
     const collection = db.collection("Task6.2D");
 
     // Insert test data for MongoDB
@@ -29,19 +29,23 @@ client.connect()
       email: "test@example.com"
     });
 
-    app.post('/api/projects/insert', formController.submitForm.bind(null, collection));
-    app.get('/api/projects', cardController.getProjects.bind(null, collection));
+    server.post('/api/projects/insert', formController.submitForm.bind(null, collection));
+    server.get('/api/projects', cardController.getProjects.bind(null, collection));
 
-    app.get("/", (req, res) => {
+    server.get("/", (req, res) => {
       res.sendFile(path.join(__dirname, "view.html"));
     });
 
     // Start the server after MongoDB connection
     const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-      console.log("App listening to port: " + port);
+    server.listen(port, () => {
+      console.log("server listening to port: " + port);
     });
   })
   .catch(err => {
     console.error("Error connecting to MongoDB:", err);
   });
+
+module.exports = server; // Export the server object for testing
+
+    // --reporter spec test/apiTests.test.js
