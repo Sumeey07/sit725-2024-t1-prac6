@@ -2,7 +2,11 @@ const submitForm = (collection, req, res) => {
   const formData = req.body;
   collection.insertOne(formData)
     .then(result => {
-      res.json({ statusCode: 200, data: result.ops, message: "Data inserted successfully" });
+      if (result.insertedCount > 0) {
+        res.json({ statusCode: 200, data: [result.ops], message: "Data inserted successfully" });
+      } else {
+        throw new Error("No documents inserted");
+      }
     })
     .catch(err => {
       console.error("Error inserting data:", err);

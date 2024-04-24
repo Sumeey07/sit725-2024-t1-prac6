@@ -1,6 +1,3 @@
-const clickMe = () => {
-  alert("Thanks for clicking me. Hope you have a nice day!")
-}
 const submitForm = () => {
   let formData = {
     first_name: $('#first_name').val(),
@@ -17,6 +14,8 @@ const submitForm = () => {
     data: JSON.stringify(formData),
     success: function(response) {
       console.log('Data inserted successfully:', response);
+      //Call getProjects after successful insertion to update the UI
+      getProjects();
     },
     error: function(xhr, status, error) {
       console.error('Error inserting data:', error);

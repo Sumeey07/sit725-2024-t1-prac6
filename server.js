@@ -18,7 +18,7 @@ client.connect()
   .then(() => {
     console.log("Connected to MongoDB");
 
-    const db = client.db("serverliedSoftwareEngineering");
+    const db = client.db("AppliedSoftwareEngineering");
     const collection = db.collection("Task6.2D");
 
     // Insert test data for MongoDB
